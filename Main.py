@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 
 from UFAZ.AIproject.functions import Functions as nn
+from UFAZ.AIproject.results import Results as res
 
 # import csv file
 heart_disease = pd.read_csv("heart_disease_dataset.csv", delimiter=';')
@@ -31,7 +32,7 @@ w1 = 2 * np.random.random((5, 2)) - 1  # for layer 1 - 5 inputs, 3 outputs
 # So from weights initialization we get that we have 5 inputs in our hidden layer
 
 # learning rate
-lr = 0.05
+lr = 0.04
 
 # Errors - it will be needed to draw a graph
 errors = []
@@ -56,9 +57,12 @@ for i in range(100000):
 
     error = np.mean(np.abs(layer2_error))
     errors.append(error)
-    accuracy = (1 - error) * 100
+    accuracy = res.accuracy(error)
+    cost = res.cost(errors)
+    # accuracy = (1 - error) * 100
+    # specificity = nn.specificity(output_layer, y_train)
     if i % 10000 == 0:
-        print('Cost after {} iterations: {}'.format(i, errors[i]))
+        print('Cost after {} iterations: {}'.format(i, cost[i]))
         print('Accuracy after {} iterations: {}'.format(i, accuracy))
 
 # Plot the accuracy chart using errors
@@ -67,6 +71,16 @@ plt.xlabel('Training')
 plt.ylabel('Error')
 plt.show()
 
+
+specificity = res.specificity(output_layer, y_train)
+f1_score = res.f1_score(output_layer, y_train)
+precision = res.precision(output_layer, y_train)
+recall = res.recall(output_layer, y_train)
+
+print("Specificity: {}".format(specificity))
+print("f1_score: {}".format(f1_score))
+print("Precision: {}".format(precision))
+print("Recall: {}".format(recall))
 print("Training Accuracy: {}".format(str(round(accuracy, 2)) + "%"))
 
 input_layer_test = X_test
@@ -76,6 +90,5 @@ output_layer_test = nn.sigmoid(np.dot(hidden_layer_test, w1))
 layer2_error = y_test - output_layer_test
 
 error = np.mean(np.abs(layer2_error))
-accuracy = (1 - error) * 100
-
+accuracy = res.accuracy(error)
 print("Validation Accuracy: {}".format(str(round(accuracy, 2)) + "%"))
