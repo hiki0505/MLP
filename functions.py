@@ -1,7 +1,4 @@
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 
 
 class Functions:
@@ -30,10 +27,27 @@ class Functions:
 
     # derivative of activation function
     def sigmoid_deriv(x):
-        return np.exp(-x)*(1 / (np.exp(-x) + 1)**2)
+        return np.exp(-x) * (1 / (np.exp(-x) + 1) ** 2)
 
     # normalization of data
     def normalize(X, axis=-1, order=2):
         l2 = np.atleast_1d(np.linalg.norm(X, order, axis))
         l2[l2 == 0] = 1
         return X / np.expand_dims(l2, axis)
+
+    def confusion_matrix(y_hat, y_true):
+
+        # Tp -- Fp -- Fn -- Tn
+        matrix = [0, 0, 0, 0]
+        # print(y_pred)
+        for i in range(len(y_hat)):
+            if np.argmax(y_hat[i]) == 0 and np.argmax(y_true[i]) == 0:
+                matrix[0] += 1  # true positive
+            elif np.argmax(y_hat[i]) == 0 and np.argmax(y_true[i]) == 1:
+                matrix[1] += 1  # false positive
+            elif np.argmax(y_hat[i]) == 1 and np.argmax(y_true[i]) == 0:
+                matrix[3] += 1  # true negative
+            else:
+                matrix[2] += 1  # false negative
+
+        return np.array(matrix)
