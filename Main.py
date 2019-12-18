@@ -49,7 +49,7 @@ y_test = test[:, y_cols]
 # Weights
 w0 = 2 * np.random.random((14, 5)) - 1  # for input   - 14 inputs, 3 outputs
 w1 = 2 * np.random.random((5, 2)) - 1  # for layer 1 - 5 inputs, 3 outputs
-# So from weights initialization we get that we have 5 inputs in our hidden layer
+# So from weights initialization we get that we have 5 neurons in our hidden layer
 
 # learning rate
 lr = 0.04

@@ -51,7 +51,7 @@ class Functions:
                 matrix[2] += 1  # false negative
         return np.array(matrix)
 
-    def split_train_test(data, train_size=0.7):
+    def split_train_test(data, train_size=0.5):
         indexes = np.random.permutation(len(data))
 
         train = data[indexes[:int(len(data) * train_size)]]
