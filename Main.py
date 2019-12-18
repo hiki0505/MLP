@@ -25,7 +25,27 @@ y = nn.to_one_hot(y)  # converting to one-hot array
 
 # Split data to training and validation data
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
+'''
+    We used the split function from sklearn module because the original function showed
+    this type of error: 
+    RuntimeWarning: invalid value encountered in long_scalars : return tn / (fp + tn)
+    RuntimeWarning: overflow encountered in exp: return 1 / (1 + np.exp(-x))
+    
+    Even though we normalized data. I tried to solve, but couldn't
+'''
 
+'''
+# Splitting from own function
+train, test = nn.split_train_test(heart_disease.values, 0.5)
+x_cols = list(range(len(heart_disease.columns)))
+
+X_train = train[:, x_cols]
+X_test = test[:, x_cols]
+
+y_cols = [-1]
+y_train = train[:, y_cols]
+y_test = test[:, y_cols]
+'''
 # Weights
 w0 = 2 * np.random.random((14, 5)) - 1  # for input   - 14 inputs, 3 outputs
 w1 = 2 * np.random.random((5, 2)) - 1  # for layer 1 - 5 inputs, 3 outputs
